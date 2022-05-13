@@ -1,4 +1,5 @@
 #  Project 3 Cryto Dashboard
+This repo contains python files. Primary Goal of the project is better understand STREAMLIT functionality and how to build applications. Secondary Goals are learn COINGECKO API and web3.eth functionalities.
 
 ## Technologies
 
