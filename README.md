@@ -19,8 +19,11 @@ The application is written in Python 3.9.7 and uses the following libraries:
 
 ## Usage
 
-In the command line go to the folder containing the file 'cryptoapp.py '. Run the application by using the following command:
-    sreamlit run cryptoapp.py 
+In the command line go to the folder containing the file 'cryptoapp.py '. 
+Run the application by using the following command:
+        
+        sreamlit run cryptoapp.py 
+        
 ## Visualization 
 
 ### Home page
