@@ -3,6 +3,9 @@ import streamlit as st
 import pandas as pd
 from pycoingecko import CoinGeckoAPI
 cg = CoinGeckoAPI()
+from ta.trend import MACD
+from ta.momentum import RSIIndicator
+
 
 # API using Infura Node to obtain blockchain data
 infura_url = 'https://mainnet.infura.io/v3/15bf55ae87d142d8b5f0b2c3ba87d1cb'
@@ -76,5 +79,21 @@ def BollBnd(token, moving_avg, std):
     bollinger_bands = pd.concat([prices_df, sma_df,bb_up_df,bb_lower_df], axis=1)
     # display as line chart
     st.line_chart(bollinger_bands)
+
+
+# Function to generate MACD and RSI charts using TA.trend and TA.momentum
+def macd_rsi(token):
+    # Gathers price data
+    coin_data = cg.get_coin_market_chart_by_id(id= token, vs_currency='usd', days = 1080, interval='daily')['prices']
+    coin_df = pd.DataFrame(coin_data)
+    coin_df = coin_df[1]
+    coin_df = pd.DataFrame({token:coin_df})
+    # Computes MACD and RSI
+    macd = MACD(coin_df[f'{token}']).macd()
+    rsi = RSIIndicator(coin_df[f'{token}']).rsi()
+    # displays as line chart in streamlit
+    st.line_chart(macd)
+    st.line_chart(rsi)
+
 
 

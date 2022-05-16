@@ -6,11 +6,9 @@ from streamlit_option_menu import option_menu
 from pycoingecko import CoinGeckoAPI
 cg = CoinGeckoAPI()
 import pandas as pd
-from functions import w3, check_latest_block, check_balance, check_gas, get_transaction, BollBnd
-#import numpy as np
-#import matplotlib.pyplot as plt
-#from ta.momentum import RSIIndicator
-
+from functions import w3, check_latest_block, check_balance, check_gas, get_transaction, BollBnd, macd_rsi
+from ta.trend import MACD
+from ta.momentum import RSIIndicator
 
 # Streamlit - allows ability to refresh app to see code changes
 st.cache(allow_output_mutation=True)
@@ -153,7 +151,7 @@ elif selected == "Price Trends" and selected2 == 'Layer 1 Tokens':
             'Select tokens price comparison',
            ['binancecoin', 'ethereum', 'solana']
            )
-        #st.write('You selected:', options)
+
         if len(options)>0:
                 st.markdown('## 90 Day Growth Comparison')
         coin_df_combined = pd.DataFrame()
@@ -202,7 +200,7 @@ elif selected == "Price Trends" and selected2 == 'DeFi Tokens':
            'Select tokens for price comparison',
            ['aave', 'uniswap', 'sushi']
            )
-        #st.write('You selected:', options)
+
         if len(options)>0:
                 st.markdown('## 90 Day Growth Comparison')
         coin_df_combined = pd.DataFrame()
@@ -251,7 +249,7 @@ elif selected == "Price Trends" and selected2 == 'NFT / Memes':
             'Select tokens for price comparison',
            ['apecoin', 'dogecoin', 'shiba-inu']
            )
-        #st.write('You selected:', options)
+
         if len(options)>0:
                 st.markdown('## 50 Day Growth Comparison')
         coin_df_combined = pd.DataFrame()
@@ -281,33 +279,36 @@ elif selected == "Price Trends" and selected2 == 'NFT / Memes':
 elif selected == 'Trading' and selected2 == 'Layer 1 Tokens':
         # Creates a select box to pick a token, a moving average interval and a number of standard deviations to calculate bollinger bands
         token = st.selectbox('Select a Token:', ('binancecoin', 'ethereum', 'solana'))
-        moving_avg = int(st.selectbox('Select a Moving Average to Computer Bollinger Bands', (10,20,30,40,50)))
-        std = int(st.selectbox('Select Number of Standard Deviations for the Upper and Lower Bands', (1,2,3)))
+        moving_avg = int(st.selectbox('Select a Moving Average to Compute Bollinger Bands', (10,20,30,40,50)))
+        std = int(st.selectbox('Select Number of Standard Deviations for the Upper and Lower Bollinger Bands', (1,2,3)))
         # Button to compute bollinger bands - uses import function from functions file
-        if st.button("Compute Bollinger Bands"):
+        if st.button("Compute Bollinger Bands, MACD and RSI"):
                 BollBnd(token, moving_avg, std)
+                macd_rsi(token)
 
 elif selected == 'Trading' and selected2 == 'DeFi Tokens':
         # Creates a select box to pick a token, a moving average interval and a number of standard deviations to calculate bollinger bands 
         token = st.selectbox('Select a Token:', ('aave', 'uniswap', 'sushi'))
-        moving_avg = int(st.selectbox('Select a Moving Average to Computer Bollinger Bands', (10,20,30,40,50)))
+        moving_avg = int(st.selectbox('Select a Moving Average to Compute Bollinger Bands', (10,20,30,40,50)))
         std = int(st.selectbox('Select Number of Standard Deviations for the Upper and Lower Bands', (1,2,3)))
         # Button to compute bollinger bands - uses import function from functions file
-        if st.button("Compute Bollinger Bands"):
+        if st.button("Compute Bollinger Bands, MACD and RSI"):
                 BollBnd(token, moving_avg, std)
+                macd_rsi(token)
 
 elif selected == 'Trading' and selected2 == 'NFT / Memes':
         # Creates a select box to pick a token, a moving average interval and a number of standard deviations to calculate bollinger bands 
         token = st.selectbox('Select a Token:', ('apecoin', 'dogecoin', 'shiba-inu'))
-        moving_avg = int(st.selectbox('Select a Moving Average to Computer Bollinger Bands', (10,20,30,40,50)))
+        moving_avg = int(st.selectbox('Select a Moving Average to Compute Bollinger Bands', (10,20,30,40,50)))
         std = int(st.selectbox('Select Number of Standard Deviations for the Upper and Lower Bands', (1,2,3)))
         # Button to compute bollinger bands - uses import function from functions file
-        if st.button("Compute Bollinger Bands"):
+        if st.button("Compute Bollinger Bands, MACD and RSI"):
                 BollBnd(token, moving_avg, std)
+                macd_rsi(token)
 
 
 # Etherscan Tab. Pulls in functions from ethdashboard file
-if selected == 'Etherscan':
+elif selected == 'Etherscan':
         st.text("\n")
         check_latest_block(w3)
         st.text("\n")
