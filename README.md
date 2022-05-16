@@ -10,11 +10,13 @@ The application is written in Python 3.9.7 and uses the following libraries:
 * streamlit
 * pycoingecko
 * streamlit-option-menu
+* ta.trend and ta.momentum
 
 ## Installations:
 
     pip install streamlit-option-menu
     pip install pycoingecko
+    pip install ta
 
 
 ## Usage
@@ -22,7 +24,7 @@ The application is written in Python 3.9.7 and uses the following libraries:
 In the command line go to the folder containing the file 'cryptoapp.py '. 
 Run the application by using the following command:
         
-        sreamlit run cryptoapp.py 
+        streamlit run cryptoapp.py 
         
 ## Visualization 
 
